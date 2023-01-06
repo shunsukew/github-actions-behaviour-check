@@ -7,5 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.comment.body, '/check') }}
     steps:
-    - run: |
-      echo "Hello (${{ github.event.comment.body }})"
+    - name: "Post Comment"
+      uses: actions/github-script@v3
+      env:
+        MESSAGE: |
+          Hello
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: process.env.MESSAGE
+          })
