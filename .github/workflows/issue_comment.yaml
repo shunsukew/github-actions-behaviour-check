@@ -1,0 +1,11 @@
+name: check_issue_comment
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  echo-bot:
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.comment.body, '/check') }}
+    steps:
+    - run: |
+      echo "Hello (${{ github.event.comment.body }})"
